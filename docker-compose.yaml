@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+
+  node:
+    container_name: karellys-nest
+    build: '.'
+    image: "karellys-node"
+    restart: unless-stopped
+    user: node
+    volumes:
+      - ./:/usr/application
+    working_dir: /usr/application
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    networks:
+      - karellys-net
+  mongo:
+    container_name: karellys-mongo
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    volumes:
+      - karellys-mongo-db:/data/db
+    networks:
+      - karellys-net
+
+networks:
+  karellys-net:
+
+volumes:
+  karellys-mongo-db:
