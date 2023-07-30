@@ -1,9 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
-
-@InputType()
 export class ListInput {
-  @Field(() => Number, { description: 'classical limit' })
-  limit: number;
-  @Field(() => Number, { description: 'classical offset' })
-  offset: number;
+	limit: number;
+	offset: number;
 }

@@ -2,14 +2,13 @@ version: '3.8'
 services:
 
   node:
-    container_name: karellys-nest
+    container_name: karellys-node
     build: '.'
     image: "karellys-node"
     restart: unless-stopped
     user: node
     volumes:
       - ./:/usr/application
-    working_dir: /usr/application
     ports:
       - "3000:3000"
       - "9229:9229"

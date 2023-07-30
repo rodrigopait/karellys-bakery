@@ -1,32 +1,31 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types as MongooseTypes } from 'mongoose';
-import { Role, RoleDocument } from './role.schema';
+import { Model } from 'mongoose';
+import { Role } from './role.schema';
 import { ListInput } from '../common/dto/list.input';
-import { CreateRoleInput } from './inputs/create-role.input';
+import { CreateRoleRequest } from './request/create-role.request';
 
 @Injectable()
 export class RoleService {
-  constructor(
-    @InjectModel(Role.name)
-    private readonly roleModel: Model<RoleDocument>,
-  ) {}
+	constructor(
+		@InjectModel('Role')
+		private readonly roleModel: Model<Role>,
+	) {}
 
-  async create(createRoleInput: CreateRoleInput) {
-    const role = new this.roleModel(createRoleInput);
-    return role.save();
-  }
+	async create(createRoleInput: CreateRoleRequest): Promise<Role> {
+		return new this.roleModel(createRoleInput).save();
+	}
 
-  async findAll(paginationQuery: ListInput) {
-    const { limit, offset } = paginationQuery;
-    return this.roleModel.find().skip(offset).limit(limit).exec();
-  }
+	async findAll(paginationQuery: ListInput): Promise<Role[]> {
+		const { limit, offset } = paginationQuery;
+		return this.roleModel.find().skip(offset).limit(limit).exec();
+	}
 
-  async findOneById(id: MongooseTypes.ObjectId) {
-    const role = await this.roleModel.findOne({ _id: id }).exec();
-    if (!role) {
-      throw new NotFoundException(`Role ${id} not found`);
-    }
-    return role;
-  }
+	async findOneById(id: string): Promise<Role> {
+		const role: Role = await this.roleModel.findOne({ _id: id }).exec();
+		if (!role) {
+			throw new NotFoundException(`Role ${id} not found`);
+		}
+		return role;
+	}
 }

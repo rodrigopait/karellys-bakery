@@ -1,29 +1,22 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Document, Types as MongooseTypes } from 'mongoose';
+import { Schema as MongooseSchema, Types as MongooseTypes } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Role } from '../role/role.schema';
 
 @Schema()
-@ObjectType()
 export class User {
-  @Field(() => ID)
-  id: MongooseTypes.ObjectId;
+	public id: MongooseTypes.ObjectId;
 
-  @Prop()
-  @Field(() => String, { description: 'User firstName ' })
-  firstName!: string;
+	@Prop()
+	public firstName!: string;
 
-  @Prop()
-  @Field(() => String, { description: 'User lastName ' })
-  lastName!: string;
+	@Prop()
+	public lastName!: string;
 
-  @Prop()
-  @Field(() => String, { description: 'User email ' })
-  email!: string;
+	@Prop()
+	public email!: string;
 
-  @Prop({ type: MongooseTypes.ObjectId, ref: 'Role' })
-  @Field(() => Role, { description: 'User role ' })
-  role: Role;
+	@Prop({ type: MongooseTypes.ObjectId, ref: 'Role' })
+	public role: Role;
 }
-export type UserDocument = User | Document;
-export const UserSchema = SchemaFactory.createForClass(User);
+
+export const UserSchema: MongooseSchema<User> = SchemaFactory.createForClass(User);
