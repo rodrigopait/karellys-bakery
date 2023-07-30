@@ -1,5 +1,9 @@
 {
   "singleQuote": true,
   "trailingComma": "all",
-  "printWidth": 120
+  "printWidth": 120,
+  "semi": true,
+  "useTabs": true,
+  "bracketSpacing": true,
+  "parser": "typescript"
 }
